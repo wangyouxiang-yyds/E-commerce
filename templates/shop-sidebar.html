@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% block js %}
+    <script>
+        function submitForm() {
+            $("#productform").submit();
+        }
+
+    </script>
+{% endblock %}
+{% load static %}
+{% block mainarea %}
+
+
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">商店</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/">首頁</a></li>
+                            <li class="active">商店</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="products section">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="widget">
+                        {% comment %}
+                        <h4 class="widget-title">分類</h4>
+                        <form id="productform" method="get" action="">
+                            {% csrf_token %}
+                            <select class="form-control" name="selected_category" id="category">
+                                <option value="0">全部</option>
+                                {% for pd_category in product_category %}
+                                    <option value="{{ pd_category.id }}"> {{ pd_category }}</option>
+                                {% endfor %}
+                            </select>
+                        </form>
+                       {% endcomment %}
+                    </div>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        {% for item in product_item %}
+                            <div class="col-md-4">
+                                <div class="product-item">
+                                    <div class="product-thumb">
+                                        {% if item.is_onsale %}
+                                            <span class="bage">特價</span>
+                                        {% endif %}
+
+                                        <img class="img-responsive"
+                                             src="{{ item.productphoto_set.first.product_photo.url }}"
+                                             alt="product-img"/>
+                                        <div class="preview-meta">
+                                            <ul>
+                                                <li>
+									<span data-toggle="modal" data-target="#product-modal-{{ item.id }}">
+										<i class="tf-ion-ios-search-strong"></i>
+									</span>
+                                                </li>
+                                                {% comment %}
+                                                <li>
+                                                    <a href="#!"><i class="tf-ion-ios-heart"></i></a>
+                                                </li>
+                                                {% endcomment %}
+                                                <li>
+                                                    <a href="{% url "additem-url" item.id 1 %}"><i
+                                                            class="tf-ion-android-cart"></i></a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div class="product-content">
+                                        <h4><a href="{% url 'shop_detail_view' item.id %}">{{ item.name }}</a></h4>
+                                        <p class="price">${{ item.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <!-- Modal -->
+                            <div class="modal product-modal fade" id="product-modal-{{ item.id }}">
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <i class="tf-ion-close"></i>
+                                </button>
+                                <div class="modal-dialog " role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-body">
+                                            <div class="row">
+                                                <div class="col-md-8 col-sm-6 col-xs-12">
+                                                    <div class="modal-image">
+                                                        <img class="img-responsive"
+                                                             src="{{ item.productphoto_set.first.product_photo.url }}"
+                                                             alt="product-img"/>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 col-sm-6 col-xs-12">
+                                                    <div class="product-short-details">
+                                                        <h2 class="product-title">{{ item.name }}</h2>
+                                                        <p class="product-price">${{ item.price }}</p>
+                                                        <p class="product-short-description">
+                                                            {{ item.small_description }}
+                                                        </p>
+                                                        <a href="/cart" class="btn btn-main">加入購物車</a>
+                                                        <a href="{% url 'shop_detail_view' item.id %}"
+                                                           class="btn btn-transparent">查看商品資訊</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><!-- /.modal -->
+                        {% endfor %}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load cart_tag %}
+{% load static %}
+{% block mainarea %}
+    <section class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="content">
+                        <h1 class="page-name">購物車</h1>
+                        <ol class="breadcrumb">
+                            <li><a href="/">首頁</a></li>
+                            <li class="active">購物車</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+    <div class="page-wrapper">
+        <div class="cart shopping">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-8 col-md-offset-2">
+                        <div class="block">
+                            <div class="product-list">
+                                <form method="post">
+                                    <table class="table">
+                                        <thead>
+                                        {% for id, item in cart.items %}
+                                        {% if forloop.first %}
+
+
+                                        <tr>
+                                            <th class="">產品名稱</th>
+                                            <th class="">單價</th>
+                                            <th class="">數量</th>
+                                            <th class="">小計</th>
+                                            <th class="">動作</th>
+                                        </tr>
+                                        {% endif %}
+                                        </thead>
+                                        <tbody>
+                                        <tr class="">
+                                            <td class="">
+
+                                                <div class="product-info">
+                                                    <img width="80" src="{{ item.image }}" alt=""/>
+                                                    <a href="#!">{{ item.name }}</a>
+                                                </div>
+                                            </td>
+                                            <td class="">${{ item.price }}</td>
+                                            <td class="">{{ item.quantity }}</td>
+                                            <td class="">{{ item.price|multiply:item.quantity }}</td>
+                                            <td class="">
+                                                <a class="product-remove" href='{% url "removeitem-url" id %}'>刪除</a>
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+                                    <a href="/checkout" class="btn btn-main pull-right">Checkout</a>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+{% endblock %}
