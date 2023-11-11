@@ -11,7 +11,8 @@ class BannerModel(models.Model):
 
     class Meta:
         db_table = 'banner'
-        verbose_name_plural = '首頁Banner列表'
+        verbose_name_plural = '首頁Banner'
+        verbose_name = '首頁Banner'
 
 
 

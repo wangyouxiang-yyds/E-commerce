@@ -11,6 +11,7 @@ class ArticleCategory(models.Model):
 
     class Meta:
         db_table = 'article_category'
+        verbose_name = "文章類別"
         verbose_name_plural = "文章類別"
 
     def __str__(self):
@@ -30,6 +31,7 @@ class Article(models.Model):
 
     class Meta:
         db_table = 'article'
+        verbose_name = "文章"
         verbose_name_plural = "文章"
 
 

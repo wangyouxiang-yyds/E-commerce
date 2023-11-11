@@ -14,6 +14,7 @@ class ContactModels(models.Model):
     modify_date = models.DateTimeField(verbose_name="更新日期", auto_now=True)
     class Meta:
         db_table = 'contact'
-        verbose_name_plural = '聯絡我們列表'
+        verbose_name_plural = '聯絡我們'
+        verbose_name = '聯絡我們'
     def __str__(self):
         return self.name

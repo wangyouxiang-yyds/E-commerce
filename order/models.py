@@ -18,6 +18,8 @@ class Order(models.Model):
     class Meta:
         ordering = ('-create_date', )
         db_table = 'order'
+        verbose_name_plural = '訂單管理'
+        verbose_name = '訂單管理'
     def __str__(self):
         return 'Order:{}'.format(self.id)
 
@@ -26,5 +28,8 @@ class OrderItem(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE, verbose_name="產品名稱")
     quantity = models.PositiveIntegerField(default=1, verbose_name="數量")
 
+    class Meta:
+        verbose_name_plural = '訂單明細'
+        verbose_name = '訂單明細'
     def __str___(self):
         return '{}'.format(self.id)

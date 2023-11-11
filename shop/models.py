@@ -12,6 +12,7 @@ class Category(models.Model):
     class Meta:
         db_table = 'category'
         verbose_name_plural = '類別列表'
+        verbose_name = '類別列表'
 
     def __str__(self):
         return self.category_name
@@ -35,6 +36,7 @@ class Product(models.Model):
     class Meta:
         db_table = 'product'
         verbose_name_plural = '產品列表'
+        verbose_name = '產品列表'
     def __str__(self):
         return self.name
 
@@ -45,6 +47,7 @@ class ProductPhoto(models.Model):
     class Meta:
         db_table = 'product_photo'
         verbose_name_plural = '產品圖片列表'
+        verbose_name = '產品圖片列表'
 
 
 

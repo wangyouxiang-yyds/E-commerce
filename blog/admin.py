@@ -17,3 +17,7 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 admin.site.register(Article, ArticleAdmin)
+
+# admin.site.site_title = '文章管理系統'
+admin.site.site_header = 'Alan E-commerce後台管理系統'
+admin.site.index_title = 'Alan E-commerce管理平台'

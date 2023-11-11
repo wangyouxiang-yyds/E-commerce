@@ -13,7 +13,8 @@ class memberModels(models.Model):
 
     class Meta:
         db_table = "member"
-        verbose_name_plural = '會員列表'
+        verbose_name_plural = '會員管理'
+        verbose_name = '會員管理'
 
     def __str__(self):
         return self.username
