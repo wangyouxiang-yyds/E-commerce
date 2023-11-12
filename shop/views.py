@@ -12,7 +12,12 @@ def shop_view(request, selected_category=0):
         product_item = Product.objects.filter(category__id=selected_category)
     else:
         product_item = Product.objects.all()
+    cart = Cart(request).cart  # 取得購物車內容
 
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
     return render(request, 'shop-sidebar.html', locals())
 
 
@@ -22,7 +27,12 @@ def shop_detail_view(request, product_id):
     product_content = get_object_or_404(all_product, pk=product_id)
     product = get_object_or_404(Product, pk=product_id)
     product_photos = product.productphoto_set.all()
+    cart = Cart(request).cart  # 取得購物車內容
 
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
     return render(request, 'product-single.html', locals())
 
 
@@ -30,6 +40,7 @@ def shop_detail_view(request, product_id):
 def add_to_cart(request, id, quantity):
     cart = Cart(request)
     product = Product.objects.get(id=id)
+    quantity = request.POST.get('product-quantity', 1)  # 獲取表單中的數量，默認為1
     cart.add(product=product, quantity=quantity)
     return redirect('/')
 

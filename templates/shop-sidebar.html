@@ -72,10 +72,18 @@
                                                     <a href="#!"><i class="tf-ion-ios-heart"></i></a>
                                                 </li>
                                                 {% endcomment %}
-                                                <li>
-                                                    <a href="{% url "additem-url" item.id 1 %}"><i
-                                                            class="tf-ion-android-cart"></i></a>
-                                                </li>
+                                                {% if request.session.Alan == 'Alan' %}
+
+                                                    <li>
+                                                        <a href="{% url "additem-url" item.id 1 %}"><i
+                                                                class="tf-ion-android-cart"></i></a>
+                                                    </li>
+                                                {% else %}
+                                                    <li>
+                                                        <a href="/login"><i
+                                                                class="tf-ion-android-cart"></i></a>
+                                                    </li>
+                                                {% endif %}
                                             </ul>
                                         </div>
                                     </div>
@@ -110,7 +118,15 @@
                                                         <p class="product-short-description">
                                                             {{ item.small_description }}
                                                         </p>
-                                                        <a href="/cart" class="btn btn-main">加入購物車</a>
+                                                        {% if request.session.Alan == 'Alan' %}
+                                                            <a href="{% url "additem-url" item.id 1 %}"
+                                                               class="btn btn-main">加入購物車</a>
+                                                        {% else %}
+                                                            <a href="/login" class="btn btn-main">
+                                                                請先登入</a>
+                                                        {% endif %}
+
+
                                                         <a href="{% url 'shop_detail_view' item.id %}"
                                                            class="btn btn-transparent">查看商品資訊</a>
                                                     </div>

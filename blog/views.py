@@ -1,8 +1,11 @@
 from django.shortcuts import render, get_object_or_404
 from .models import *
+from django_shop.views import homepage
 # Create your views here.
 # 分頁
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
+from cart.cart import Cart
 
 def BlogView(request):
     all_article = Article.objects.all().order_by('-pk', 'create_date')
@@ -19,7 +22,7 @@ def BlogView(request):
             all_article = Article.objects.filter(title__icontains=search, content__icontains=search).order_by('-pk', 'create_date')
 
 
-    paginator = Paginator(all_article, 1)
+    paginator = Paginator(all_article, 4)
     page = request.GET.get('page', 1)
 
     try:
@@ -29,6 +32,13 @@ def BlogView(request):
     except EmptyPage:
         all_article = paginator.page(paginator.num_pages)
 
+
+    cart = Cart(request).cart  # 取得購物車內容
+
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
     return render(request, 'blog-right-sidebar.html', locals())
 
 # 文章內容

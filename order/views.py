@@ -12,7 +12,6 @@ from cart.cart import Cart
 def orderView(request):
     all_categories = Category.objects.all()
 
-
     cart = Cart(request).cart  # 取得購物車內容
 
     total_price = 0
@@ -40,8 +39,6 @@ def orderView(request):
         )
         order.save()
 
-
-
         for product_id, item in cart.items():
             product = Product.objects.get(id=product_id)
             quantity = item['quantity']
@@ -49,6 +46,13 @@ def orderView(request):
             order_item.save()
         cart.clear()
         return redirect('/confirmation')
+
+    cart = Cart(request).cart  # 取得購物車內容
+
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
 
     return render(request, 'checkout.html', locals())
 
@@ -58,9 +62,14 @@ def my_order(request):
     user_id = request.session.get('user_id')  # 從session中獲取用戶的ID
     user = memberModels.objects.get(id=user_id)
     orders = Order.objects.filter(user=user)
+
+    cart = Cart(request).cart  # 取得購物車內容
+
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
     return render(request, 'order.html', locals())
-
-
 
 
 def Confirmation_View(request):
@@ -68,5 +77,3 @@ def Confirmation_View(request):
     cart.clear()
 
     return render(request, 'confirmation.html', locals())
-
-
