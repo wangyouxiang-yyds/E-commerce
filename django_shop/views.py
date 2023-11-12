@@ -7,7 +7,7 @@ from cart.cart import Cart
 def homepage(request):
 
     category = Category.objects.all().order_by('-pk')
-    product_item = Product.objects.all().order_by('create_date')
+    product_item = Product.objects.all().order_by('?')[:3]
 
     banner = BannerModel.objects.all()
     all_categories = Category.objects.all()

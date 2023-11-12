@@ -3,6 +3,9 @@ from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
 from cart.cart import Cart
 
+# 分頁
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 # Create your views here.
 def shop_view(request, selected_category=0):
@@ -12,6 +15,17 @@ def shop_view(request, selected_category=0):
         product_item = Product.objects.filter(category__id=selected_category)
     else:
         product_item = Product.objects.all()
+
+    paginator = Paginator(product_item, 9)
+    page = request.GET.get('page', 1)
+
+    try:
+        product_item = paginator.page(page)
+    except PageNotAnInteger:
+        product_item = paginator.page(1)
+    except EmptyPage:
+        product_item = paginator.page(paginator.num_pages)
+
     cart = Cart(request).cart  # 取得購物車內容
 
     total_price = 0
@@ -42,7 +56,7 @@ def add_to_cart(request, id, quantity):
     product = Product.objects.get(id=id)
     quantity = request.POST.get('product-quantity', 1)  # 獲取表單中的數量，默認為1
     cart.add(product=product, quantity=quantity)
-    return redirect('/')
+    return redirect('/cart')
 
 
 # 移除購物車

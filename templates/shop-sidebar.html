@@ -32,19 +32,37 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
-                    <div class="widget">
-                        {% comment %}
-                        <h4 class="widget-title">分類</h4>
-                        <form id="productform" method="get" action="">
-                            {% csrf_token %}
-                            <select class="form-control" name="selected_category" id="category">
-                                <option value="0">全部</option>
-                                {% for pd_category in product_category %}
-                                    <option value="{{ pd_category.id }}"> {{ pd_category }}</option>
-                                {% endfor %}
-                            </select>
-                        </form>
-                       {% endcomment %}
+                    <div class="widget product-category">
+                        <h4 class="widget-title">商品分類</h4>
+                        <div class="panel-group commonAccordion" id="accordion" role="tablist"
+                             aria-multiselectable="true">
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="headingOne">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                            點我選擇分類
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="headingOne">
+                                    <div class="panel-body">
+                                        <ul>
+                                            {% for category in product_category %}
+
+                                                <li>
+                                                    <a href="{% url 'shop_sidebar' selected_category=category.id %}">{{ category.category_name }}</a>
+                                                </li>
+
+                                            {% endfor %}
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
                     </div>
                 </div>
                 <div class="col-md-9">
@@ -94,7 +112,8 @@
                                 </div>
                             </div>
 
-
+                        {% endfor %}
+                        {% for item in product_item %}
                             <!-- Modal -->
                             <div class="modal product-modal fade" id="product-modal-{{ item.id }}">
                                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -137,9 +156,27 @@
                                 </div>
                             </div><!-- /.modal -->
                         {% endfor %}
+
                     </div>
                 </div>
+                <div class="text-center">
+                    <ul class="pagination post-pagination">
+                        {% if product_item.has_previous %}
+                            <li><a href="?page={{ product_item.previous_page_number }}">上一頁</a></li>
+                        {% endif %}
+                        {% for pages in product_item.paginator.page_range %}
+                            {% if product_item.number == pages %}
+                                <li class="active"><span>{{ pages }}</span></li>
+                            {% elif product_item.number|add:'-1' == pages or product_item.number|add:'1' == product_item %}
+                                <li><a href="?page={{ pages }}">{{ pages }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                        {% if product_item.has_next %}
+                            <li><a href="?page={{ product_item.next_page_number }}">下一頁</a></li>
+                        {% endif %}
+                    </ul>
 
+                </div>
             </div>
         </div>
     </section>

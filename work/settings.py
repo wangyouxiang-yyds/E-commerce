@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_shop.apps.DjangoShopConfig',
+    # pip install django-multiupload
+    'multiupload',
     'paypal.standard.ipn',
     'member',
     'blog',

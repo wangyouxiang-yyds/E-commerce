@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                <form action="/cart/additem/{{ product.id }}" method="post" id="product-form">
+                <form action="/cart/additem/{{ product.id }}/1/" method="post" id="product-form">
                     {% csrf_token %}
                     <div class="col-md-7">
                         <div class="single-product-details">
@@ -83,11 +83,9 @@
                                     </li>
                                 </ul>
                             </div>
-                            {% if request.session.Alan == "Alan" %}
+
                                 <button type="submit" class="btn btn-main mt-20">加入購物車</button>
-                            {% else %}
-                                <a href="/login" class="btn btn-main mt-20">請先登入</a>
-                            {% endif %}
+
                         </div>
                     </div>
                 </form>
@@ -96,7 +94,7 @@
                         <div class="tabCommon mt-20">
                             <ul class="nav nav-tabs">
                                 <li class="active"><a data-toggle="tab" href="#details"
-                                                      aria-expanded="true">場品資訊</a>
+                                                      aria-expanded="true">商品資訊</a>
                                 </li>
                                 {#                            <li class=""><a data-toggle="tab" href="#reviews" aria-expanded="false">Reviews (3)</a></li>#}
                             </ul>
@@ -197,16 +195,6 @@
             </div>
         </div>
     </section>
-    <script>
-        document.getElementById("product-form").addEventListener("submit", function (e) {
-            e.preventDefault();
-            var quantity = document.getElementById("product-quantity").value;
-            var form = e.target;
-            var action = form.getAttribute("action");
-            var newAction = action + "/" + quantity + "/";
-            form.setAttribute("action", newAction);
-            form.submit();
-        });
-    </script>
+
 
 {% endblock %}

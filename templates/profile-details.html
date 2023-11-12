@@ -29,7 +29,7 @@
         <div class="dashboard-wrapper dashboard-user-profile">
           <div class="media">
             <div class="pull-left text-center">
-              <img class="media-object user-img" src="{% static '/images/avater.jpg' %}" alt="Image">
+              <img class="media-object user-img" src="{% if member_img  %}{{ member_img.url }}{% else %}{% endif %}" alt="Image">
               <a href="/edit-profile" class="btn btn-transparent mt-20">修改個人資料</a>
             </div>
             <div class="media-body">

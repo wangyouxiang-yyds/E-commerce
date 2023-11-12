@@ -5,6 +5,8 @@ from django.core.mail import send_mail
 from .models import *
 from django.http import HttpResponseRedirect, HttpResponse
 import hashlib, random, string
+from cart.cart import Cart
+
 from django.contrib.auth.hashers import make_password
 
 
@@ -129,13 +131,13 @@ def edit_profile(request):
     member_img = member.user_img
     member_create_date = member.c_date
 
-    if  request.method == "POST":
+    if request.method == "POST":
         member_name = request.POST.get('member_name')
         member_phone = request.POST.get('member_phone')
         member_birthday = request.POST.get('member_birthday')
         member_address = request.POST.get('member_address')
-        member_password = request.POST.get('member_password')
-        member_img = request.FILES.get('user_img')
+        member_password_change = request.POST.get('member_password')
+        member_img_change = request.FILES.get('user_img')
 
         member_change = memberModels.objects.get(email=target_email)
         member_change.username = member_name
@@ -143,10 +145,22 @@ def edit_profile(request):
         member_change.address = member_address
         member_change.birthday = member_birthday
         member_change.username = member_name
-        member_change.user_img = member_img
-        password = hashlib.sha3_256(member_password.encode('utf-8')).hexdigest()
-        member_change.password = password
+        # 如果照片變換了 才會被寫資料庫
+        if member_img_change and member_img != member_img_change:
+            member_change.user_img = member_img_change
+
+        # 如果密碼變換了 才會被寫資料庫
+        if member_password != member_password_change:
+            password = hashlib.sha3_256(member_password_change.encode('utf-8')).hexdigest()
+            member_change.password = password
 
         member_change.save()
 
+        return redirect('/profile-details/')
+    cart = Cart(request).cart  # 取得購物車內容
+
+    total_price = 0
+    for _, item in cart.items():
+        current_price = int(item['price']) * int(item['quantity'])
+        total_price += current_price
     return render(request, 'edit_profile.html', locals())

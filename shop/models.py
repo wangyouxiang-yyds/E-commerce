@@ -3,6 +3,7 @@ from django.db import models
 # 刪除資料連同圖片
 from django.db.models.signals import pre_delete
 from django.dispatch import receiver
+from multiupload.fields import MultiFileField
 
 # Create your models here.
 class Category(models.Model):
@@ -23,7 +24,7 @@ class Product(models.Model):
     pc_id = models.CharField(verbose_name="產品編號", max_length=20)
     name = models.CharField(verbose_name="產品名稱", max_length=200)
     small_description = models.TextField(verbose_name="產品簡述", max_length=100)
-    description = models.TextField(verbose_name="產品描述", max_length=200)
+    description = models.TextField(verbose_name="產品描述", blank=True)
     stock = models.PositiveIntegerField(verbose_name="庫存", default=0)
     price = models.IntegerField(verbose_name="價格")
     available = models.BooleanField(verbose_name="上架")
