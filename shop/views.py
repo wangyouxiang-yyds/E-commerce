@@ -87,3 +87,5 @@ def empty_cart(request):
         return render(request, 'empty-cart.html')  # 顯示空購物車頁面
     else:
         return redirect('/cart')  # 如果不是空的，導向回購物車頁面
+
+

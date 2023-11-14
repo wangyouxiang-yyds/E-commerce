@@ -26,6 +26,7 @@ from order.views import orderView, Confirmation_View, my_order
 from contact.views import contactView
 from payment.views import payment, payment_done, payment_canceled
 from faq.views import FAQ_View
+
 urlpatterns = [
                   path('', homepage),
                   path('index/', homepage),
@@ -44,6 +45,7 @@ urlpatterns = [
                   path('empty-cart/', empty_cart),
                   path('cart/additem/<int:id>/<int:quantity>/', add_to_cart, name='additem-url'),
                   path('cart/removeitem/<int:id>/', remove_from_cart, name='removeitem-url'),
+
                   path('checkout/', orderView),
                   path('order/', my_order),
                   path('confirmation/', Confirmation_View),
