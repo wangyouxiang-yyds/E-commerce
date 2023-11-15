@@ -1,3 +1,4 @@
+from django.db.models import Q
 from django.shortcuts import render, get_object_or_404
 from .models import *
 from django_shop.views import homepage
@@ -19,7 +20,7 @@ def BlogView(request):
     if 'search' in request.GET:
         search = request.GET['search']
         if len(search) > 0:
-            all_article = Article.objects.filter(title__icontains=search, content__icontains=search).order_by('-pk', 'create_date')
+            all_article = Article.objects.filter(Q(title__icontains=search) | Q(content__icontains=search)).order_by('-pk', 'create_date')
 
 
     paginator = Paginator(all_article, 4)

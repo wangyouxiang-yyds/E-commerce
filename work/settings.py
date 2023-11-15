@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     'contact',
     'payment',
     'faq',
+    'article_crawler',
 
 ]
 

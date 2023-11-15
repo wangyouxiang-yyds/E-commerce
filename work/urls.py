@@ -26,7 +26,7 @@ from order.views import orderView, Confirmation_View, my_order
 from contact.views import contactView
 from payment.views import payment, payment_done, payment_canceled
 from faq.views import FAQ_View
-
+from article_crawler.views import newView
 urlpatterns = [
                   path('', homepage),
                   path('index/', homepage),
@@ -56,6 +56,9 @@ urlpatterns = [
                   path('done/', payment_done),
                   path('canceled/', payment_canceled),
                   path('faq/', FAQ_View),
+                  path('blog-crawler/', newView),
+
+
 
               ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
