@@ -59,4 +59,4 @@ def file_delete(sender, instance, **kwargs):
 
 @receiver(pre_delete, sender=ProductPhoto)
 def file_delete(sender, instance, **kwargs):
-    instance.category_photo.delete(True)
+    instance.product_photo.delete(True)

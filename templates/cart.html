@@ -1,6 +1,16 @@
 {% extends 'base.html' %}
 {% load cart_tag %}
 {% load static %}
+{% block js %}
+<script>
+
+    function confirmLink(message) {
+        document.returnValue = confirm(message);
+
+    }
+
+</script>
+{% endblock %}
 {% block mainarea %}
     <section class="page-header">
         <div class="container">
@@ -31,34 +41,35 @@
                                     <table class="table">
                                         <thead>
                                         {% for id, item in cart.items %}
-                                        {% if forloop.first %}
+                                            {% if forloop.first %}
 
 
-                                        <tr>
-                                            <th class="">產品名稱</th>
-                                            <th class="">單價</th>
-                                            <th class="">數量</th>
-                                            <th class="">小計</th>
-                                            <th class="">動作</th>
-                                        </tr>
-                                        {% endif %}
-                                        </thead>
-                                        <tbody>
-                                        <tr class="">
-                                            <td class="">
+                                                <tr>
+                                                    <th class="">產品名稱</th>
+                                                    <th class="">單價</th>
+                                                    <th class="">數量</th>
+                                                    <th class="">小計</th>
+                                                    <th class="">動作</th>
+                                                </tr>
+                                            {% endif %}
+                                            </thead>
+                                            <tbody>
+                                            <tr class="">
+                                                <td class="">
 
-                                                <div class="product-info">
-                                                    <img width="80" src="{{ item.image }}" alt=""/>
-                                                    <a href="#!">{{ item.name }}</a>
-                                                </div>
-                                            </td>
-                                            <td class="">${{ item.price }}</td>
-                                            <td class="">{{ item.quantity }}</td>
-                                            <td class="">{{ item.price|multiply:item.quantity }}</td>
-                                            <td class="">
-                                                <a class="product-remove" href='{% url "removeitem-url" id %}'>刪除</a>
-                                            </td>
-                                        </tr>
+                                                    <div class="product-info">
+                                                        <img width="80" src="{{ item.image }}" alt=""/>
+                                                        <a href="#!">{{ item.name }}</a>
+                                                    </div>
+                                                </td>
+                                                <td class="">${{ item.price }}</td>
+                                                <td class="">{{ item.quantity }}</td>
+                                                <td class="">{{ item.price|multiply:item.quantity }}</td>
+                                                <td class="">
+                                                    <a class="product-remove" href='{% url "removeitem-url" id %}'
+                                                       onclick="confirmLink('確定刪除此商品?'); return document.returnValue">刪除</a>
+                                                </td>
+                                            </tr>
                                         {% endfor %}
                                         </tbody>
                                     </table>
